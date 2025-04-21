@@ -115,6 +115,8 @@ void SnakeGame::initGame()
     snake.append(QPoint(5, 6));
     snake.append(QPoint(5, 5));
     direction = 2; // Start moving down
+    nextDirection = 2; // То же начальное направление
+    movePending = false; // Нет ожидающих движений
     score = 0;
     updateScore();
     generateFood();
@@ -137,6 +139,11 @@ void SnakeGame::generateFood()
 void SnakeGame::gameLoop()
 {
     if (!gameRunning) return;
+
+    if (movePending) {
+        direction = nextDirection;
+        movePending = false;
+    }
 
     // Move snake
     QPoint head = snake.first();
@@ -238,27 +245,34 @@ void SnakeGame::keyPressEvent(QKeyEvent *event)
         return;
     }
 
-    // Обрабатываем только стрелки и WASD
+    int newDirection = direction; // По умолчанию оставляем текущее направление
+
     switch (event->key()) {
     case Qt::Key_Up:
     case Qt::Key_W:
-        if (direction != 2) direction = 0; // Вверх
+        if (direction != 2) newDirection = 0; // Вверх
         break;
     case Qt::Key_Right:
     case Qt::Key_D:
-        if (direction != 3) direction = 1; // Вправо
+        if (direction != 3) newDirection = 1; // Вправо
         break;
     case Qt::Key_Down:
     case Qt::Key_S:
-        if (direction != 0) direction = 2; // Вниз
+        if (direction != 0) newDirection = 2; // Вниз
         break;
     case Qt::Key_Left:
     case Qt::Key_A:
-        if (direction != 1) direction = 3; // Влево
+        if (direction != 1) newDirection = 3; // Влево
         break;
     default:
         QWidget::keyPressEvent(event);
         return;
+    }
+
+    // Если направление изменилось, сохраняем его для следующего хода
+    if (newDirection != direction) {
+        nextDirection = newDirection;
+        movePending = true;
     }
 
     event->accept();
