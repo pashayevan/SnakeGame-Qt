@@ -37,6 +37,9 @@ private:
     void updateScore();
     void gameOver();
 
+    bool movePending; // Флаг, указывающий, что движение ожидает обработки
+    int nextDirection; // Следующее направление движения
+
     // Game elements
     QVector<QPoint> snake;
     QPoint food;
