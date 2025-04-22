@@ -9,6 +9,8 @@
 
 SnakeGame::SnakeGame(QWidget *parent) : QWidget(parent)
 {
+
+
     // Load high score from settings
     QSettings settings;
     highScore = settings.value("highScore", 0).toInt();
@@ -81,6 +83,18 @@ SnakeGame::SnakeGame(QWidget *parent) : QWidget(parent)
 
     // Критически важная строка - добавляем возможность получать фокус
     setFocusPolicy(Qt::StrongFocus);
+    // Устанавливаем фон через палитру (самый эффективный способ)
+    QPalette pal = palette();
+    pal.setColor(QPalette::Window, QColor::fromRgb(BACKGROUND_COLOR));
+    setPalette(pal);
+
+    // Игровое поле
+    gameFrame->setFrameStyle(QFrame::Box | QFrame::Plain);
+    gameFrame->setLineWidth(3);
+    QPalette framePal = gameFrame->palette();
+    framePal.setColor(QPalette::Window, QColor::fromRgb(0xF8F4E6));
+    framePal.setColor(QPalette::WindowText, QColor::fromRgb(BORDER_COLOR));
+    gameFrame->setPalette(framePal);
 }
 
 
@@ -209,35 +223,54 @@ void SnakeGame::updateScore()
 
 void SnakeGame::paintEvent(QPaintEvent *event)
 {
-    Q_UNUSED(event); // Помечаем параметр как неиспользуемый
-
+    Q_UNUSED(event);
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
 
     // Рисуем игровое поле
-    painter.translate(gameFrame->geometry().topLeft() + QPoint(2, 2));
-    painter.fillRect(0, 0, FIELD_WIDTH * DOT_SIZE, FIELD_HEIGHT * DOT_SIZE, Qt::white);
+    painter.translate(gameFrame->geometry().topLeft() + QPoint(3, 3));
 
-    if (!gameRunning && snake.isEmpty()) return;
+    // Заливка поля (оптимальный способ)
+    painter.fillRect(0, 0, FIELD_WIDTH*DOT_SIZE, FIELD_HEIGHT*DOT_SIZE,
+                     QColor::fromRgb(0xF8F4E6));
 
-    // Рисуем еду
-    painter.setBrush(Qt::red);
-    painter.drawEllipse(food.x() * DOT_SIZE, food.y() * DOT_SIZE, DOT_SIZE, DOT_SIZE);
-
-    // Рисуем тело змейки
-    painter.setBrush(Qt::green);
-    for (const QPoint &point : snake) {
-        painter.drawEllipse(point.x() * DOT_SIZE, point.y() * DOT_SIZE, DOT_SIZE, DOT_SIZE);
-    }
-
-    // Рисуем голову змейки другим цветом
-    if (!snake.isEmpty()) {
-        painter.setBrush(Qt::darkGreen);
-        painter.drawEllipse(snake.first().x() * DOT_SIZE,
-                            snake.first().y() * DOT_SIZE,
+    // Тело змейки
+    for(int i = 0; i < snake.size(); ++i) {
+        painter.setBrush(QColor::fromRgb(i % 2 ? SNAKE_BODY_1 : SNAKE_BODY_2));
+        painter.drawEllipse(snake[i].x()*DOT_SIZE, snake[i].y()*DOT_SIZE,
                             DOT_SIZE, DOT_SIZE);
     }
+
+    // Голова змейки (ромб)
+    if(!snake.isEmpty()) {
+        painter.setBrush(QColor::fromRgb(SNAKE_HEAD_COLOR));
+        QPoint head = snake.first();
+        int x = head.x() * DOT_SIZE;
+        int y = head.y() * DOT_SIZE;
+
+        QPoint points[4] = {
+            QPoint(x + DOT_SIZE/2, y),
+            QPoint(x + DOT_SIZE, y + DOT_SIZE/2),
+            QPoint(x + DOT_SIZE/2, y + DOT_SIZE),
+            QPoint(x, y + DOT_SIZE/2)
+        };
+        painter.drawPolygon(points, 4);
+    }
+
+    // Пахлава (ромб с узором)
+    painter.setBrush(QColor::fromRgb(FOOD_COLOR));
+    int fx = food.x() * DOT_SIZE;
+    int fy = food.y() * DOT_SIZE;
+
+    QPoint foodPoints[4] = {
+        QPoint(fx + DOT_SIZE/2, fy),
+        QPoint(fx + DOT_SIZE, fy + DOT_SIZE/2),
+        QPoint(fx + DOT_SIZE/2, fy + DOT_SIZE),
+        QPoint(fx, fy + DOT_SIZE/2)
+    };
+    painter.drawPolygon(foodPoints, 4);
 }
+
 void SnakeGame::keyPressEvent(QKeyEvent *event)
 {
     if (!gameRunning) {
