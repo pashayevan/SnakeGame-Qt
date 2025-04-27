@@ -37,25 +37,23 @@ private:
     void updateScore();
     void gameOver();
 
-
-    // Цветовая палитра "Гюрза" через QRgb
-    static constexpr QRgb BACKGROUND_COLOR = 0xF0E5D8;  // Песочный фон
+    // Цветовая палитра
+    static constexpr QRgb BACKGROUND_COLOR = 0xF0E5D8;  // Песочный фон, если не загрузится изображение
     static constexpr QRgb SNAKE_HEAD_COLOR = 0x5E1914;  // Темно-бордовая голова
     static constexpr QRgb SNAKE_BODY_1 = 0x8B4513;      // Коричневое тело
     static constexpr QRgb SNAKE_BODY_2 = 0xA0522D;      // Светло-коричневое тело
-    static constexpr QRgb FOOD_COLOR = 0xD4A017;        // Золотистая "пахлава"
+    static constexpr QRgb FOOD_COLOR = 0xD4A017;        // Золотистая еда
     static constexpr QRgb BORDER_COLOR = 0x5E1914;      // Бордовая рамка
-    static constexpr QRgb ORNAMENT_COLOR = 0x5E1914;    // Цвет орнамента
 
-    bool movePending; // Флаг, указывающий, что движение ожидает обработки
-    int nextDirection; // Следующее направление движения
-    // Game elements
+    bool movePending;
+    int nextDirection;
     QVector<QPoint> snake;
     QPoint food;
-    int direction; // 0: up, 1: right, 2: down, 3: left
+    int direction;
     bool gameRunning;
+    QPixmap backgroundImage;
 
-    // UI elements
+
     QFrame *gameFrame;
     QLabel *scoreLabel;
     QLabel *highScoreLabel;
@@ -63,14 +61,12 @@ private:
     QPushButton *restartButton;
     QVBoxLayout *mainLayout;
 
-    // Game stats
     int score;
     int highScore;
     static const int DOT_SIZE = 20;
     static const int FIELD_WIDTH = 20;
     static const int FIELD_HEIGHT = 15;
 
-    // Timer
     QTimer *timer;
 };
 
