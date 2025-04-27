@@ -14,10 +14,10 @@ A classic Snake game implementation using Qt framework with modern UI features a
 - 📊 Score system with persistent high score saving
 - ⚡ Dynamic game speed acceleration as you progress
 - 🎨 Visually appealing design with:
-  - Triangular snake head that changes direction
-  - Alternating body segment colors
-  - Golden food items
-  - Custom background (sand color fallback)
+- Triangular snake head that changes direction
+- Alternating body segment colors
+- Golden food items
+- Custom background (sand color fallback)
 - ⏸️ Automatic pause when window loses focus
 - 🔄 Restart functionality with dedicated button
 - 🖌️ Custom rendering using QPainter
@@ -73,14 +73,16 @@ Core Components
 
 > QSettings - Persistent high score storage
 
-## Color Palette
-###Element  ###Hex Code ###Sample
-Background      #F0E5D8   	🟫
-Snake Head	    #5E1914	    🟤
-Body Segment 1	#8B4513    	🟫
-Body Segment 2	#A0522D	    🟤
-Food	          #D4A017	    🟨
-Borders       	#5E1914	    🟤
+## 🎨 Color Palette
+
+| Element         | Hex Code  | Sample |
+|-----------------|-----------|--------|
+| Background      | `#F0E5D8` | 🟫      |
+| Snake Head      | `#5E1914` | 🟤      |
+| Body Segment 1  | `#8B4513` | 🟫      |
+| Body Segment 2  | `#A0522D` | 🟤      |
+| Food            | `#D4A017` | 🟨      |
+| Borders         | `#5E1914` | 🟤      |
 
 ### Key Algorithms
 ```cpp
