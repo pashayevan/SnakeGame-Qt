@@ -6,7 +6,8 @@
 
 A classic Snake game implementation using Qt framework with modern UI features and smooth gameplay.
 
-![Gameplay Screenshot](screenshot.png) <!-- Add your screenshot later -->
+![Gameplay Screenshot](screenshot.png) <!-- Add your screenshot l![1](https://github.com/user-attachments/assets/0bb74a16-4f90-4bf2-ac43-fe205fda0994)
+ater -->
 
 ## ✨ Features
 
@@ -37,7 +38,6 @@ qmake
 make
 
 ### For Windows with MinGW:
-```bash
 qmake -spec win32-g++ 
 mingw32-make
 
