@@ -7,7 +7,7 @@
 A classic Snake game implementation using Qt framework with modern UI features and smooth gameplay.
 
 <p align="center">
-  <img src="snake.png" style="width: 150px;" />
+  <img src="snake.png" style="width: 300px;" />
 </p>
 
 ## ✨ Features
