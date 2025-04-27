@@ -48,10 +48,15 @@ mingw32-make
 ### 🎮 How to Play
 
 1.Launch the game
+
 2.Click "Play" button
-3.Use arrow keys or WASD to control the snake
+
+3.Use arrow keys to control the snake
+
 4.Eat the golden food to grow and score points
+
 5.Avoid walls and your own tail
+
 6.Game speeds up every 5 points
 
 ### 🏗️ Project Structure
