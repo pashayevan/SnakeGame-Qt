@@ -6,8 +6,7 @@
 
 A classic Snake game implementation using Qt framework with modern UI features and smooth gameplay.
 
-![Gameplay Screenshot](screenshot.png) <!-- Add your screenshot l![1](https://github.com/user-attachments/assets/0bb74a16-4f90-4bf2-ac43-fe205fda0994)
-ater -->
+![Gameplay Screenshot](screenshot.png) <!-- Add your screenshot -->
 
 ## ✨ Features
 
@@ -36,10 +35,13 @@ git clone https://github.com/yourusername/qt-snake-game.git
 cd qt-snake-game
 qmake
 make
+```
 
 ### For Windows with MinGW:
+```bash
 qmake -spec win32-g++ 
 mingw32-make
+```
 
 ### 🎮 How to Play
 
@@ -58,6 +60,8 @@ qt-snake-game/
 ├── main.cpp         # Application entry point
 ├── CMakeLists.txt   # CMake build configuration
 └── resources/       # (Optional) Asset directory
+
+```
 
 ### 🧠 Technical Details
 Core Components
@@ -109,5 +113,6 @@ void SnakeGame::gameLoop() {
     
     update();
 }
+```
 
 
