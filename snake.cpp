@@ -39,9 +39,8 @@ SnakeGame::SnakeGame(QWidget *parent) : QWidget(parent)
     gameFrame->setLineWidth(2);
     gameFrame->setFixedSize(FIELD_WIDTH * DOT_SIZE + 4, FIELD_HEIGHT * DOT_SIZE + 4);
 
-    // Добавляем игровое поле с выравниванием по центру и без растяжения
     mainLayout->addWidget(gameFrame, 0, Qt::AlignCenter);
-    mainLayout->setAlignment(gameFrame, Qt::AlignCenter);  // Фиксируем позицию
+    mainLayout->setAlignment(gameFrame, Qt::AlignCenter);  
 
     playButton = new QPushButton("Play", this);
     restartButton = new QPushButton("Restart", this);
@@ -52,17 +51,15 @@ SnakeGame::SnakeGame(QWidget *parent) : QWidget(parent)
     playButton->setFont(buttonFont);
     restartButton->setFont(buttonFont);
 
-    // Создаем отдельный контейнер для кнопок, чтобы они не влияли на положение игрового поля
     QHBoxLayout *buttonLayout = new QHBoxLayout();
     buttonLayout->addStretch();
     buttonLayout->addWidget(playButton);
     buttonLayout->addWidget(restartButton);
     buttonLayout->addStretch();
 
-    // Добавляем кнопки внизу, но без влияния на остальную компоновку
-    mainLayout->addStretch();  // Растягиваем пространство между игровым полем и кнопками
+    mainLayout->addStretch(); 
     mainLayout->addLayout(buttonLayout);
-    mainLayout->addStretch();  // Дополнительное пространство внизу (опционально)
+    mainLayout->addStretch(); 
 
     connect(playButton, &QPushButton::clicked, this, &SnakeGame::startGame);
     connect(restartButton, &QPushButton::clicked, this, &SnakeGame::restartGame);
@@ -158,15 +155,13 @@ void SnakeGame::gameLoop()
         updateScore();
         generateFood();
 
-        // --- Добавляем ускорение здесь ---
-        if (score % 5 == 0) {  // каждые 5 очков
+        if (score % 5 == 0) {  
             int newInterval = timer->interval() - 10;
             if (newInterval < 50) {
-                newInterval = 50;  // минимальная скорость
+                newInterval = 50;  
             }
             timer->setInterval(newInterval);
         }
-        // -----------------------------------
     } else {
         snake.removeLast();
     }
@@ -217,30 +212,22 @@ void SnakeGame::paintEvent(QPaintEvent *event)
     Q_UNUSED(event);
     QPainter painter(this);
 
-    // Рисуем фоновое изображение на всем виджете, кроме области игрового поля
     if (!backgroundImage.isNull()) {
-        // Рисуем изображение на всем виджете
         painter.drawPixmap(rect(), backgroundImage);
 
-        // Закрашиваем область игрового поля (чтобы изображение не было видно под ним)
         QRect frameRect = gameFrame->geometry();
         painter.fillRect(frameRect, QColor::fromRgb(0xF8F4E6));
     } else {
-        // Если изображения нет, рисуем просто цветной фон
         painter.fillRect(rect(), QColor::fromRgb(BACKGROUND_COLOR));
     }
 
-    // Рисуем игровое поле
     painter.setRenderHint(QPainter::Antialiasing);
     painter.translate(gameFrame->geometry().topLeft() + QPoint(2, 2));
 
-    // Фон игрового поля (без изображения)
     painter.fillRect(0, 0, FIELD_WIDTH * DOT_SIZE, FIELD_HEIGHT * DOT_SIZE,
                      QColor::fromRgb(0xF8F4E6));
 
     if (!snake.isEmpty()) {
-        // Остальной код отрисовки змейки и еды остается без изменений
-        // Сначала рисуем голову
         painter.setBrush(QColor::fromRgb(SNAKE_HEAD_COLOR));
         QPoint head = snake.first();
         int x = head.x() * DOT_SIZE;
@@ -273,7 +260,6 @@ void SnakeGame::paintEvent(QPaintEvent *event)
 
         painter.drawPolygon(points, 3);
 
-        // Теперь рисуем тело
         for (int i = 1; i < snake.size(); ++i) {
             painter.setBrush(QColor::fromRgb(i % 2 ? SNAKE_BODY_1 : SNAKE_BODY_2));
             QPoint p = snake[i];
@@ -281,7 +267,6 @@ void SnakeGame::paintEvent(QPaintEvent *event)
         }
     }
 
-    // Рисуем еду (ромб)
     painter.setBrush(QColor::fromRgb(FOOD_COLOR));
     int fx = food.x() * DOT_SIZE;
     int fy = food.y() * DOT_SIZE;
