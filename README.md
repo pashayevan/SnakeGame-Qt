@@ -48,7 +48,7 @@ mingw32-make
 
 1.Launch the game
 
-2.Click "Play" button
+2.Click "Play" button or any of the control buttons on keypad
 
 3.Use arrow keys to control the snake
 
