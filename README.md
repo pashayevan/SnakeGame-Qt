@@ -35,7 +35,9 @@ A classic Snake game implementation using Qt framework with modern UI features a
 ```bash
 git clone https://github.com/pashayevan/SnakeGame-Qt.git
 cd SnakeGame-Qt
-qmake
+mkdir build
+cd build
+cmake ..
 make
 ```
 
