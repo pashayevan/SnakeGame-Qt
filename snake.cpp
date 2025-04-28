@@ -40,7 +40,7 @@ SnakeGame::SnakeGame(QWidget *parent) : QWidget(parent)
     gameFrame->setFixedSize(FIELD_WIDTH * DOT_SIZE + 4, FIELD_HEIGHT * DOT_SIZE + 4);
 
     mainLayout->addWidget(gameFrame, 0, Qt::AlignCenter);
-    mainLayout->setAlignment(gameFrame, Qt::AlignCenter);  
+    mainLayout->setAlignment(gameFrame, Qt::AlignCenter);
 
     playButton = new QPushButton("Play", this);
     restartButton = new QPushButton("Restart", this);
@@ -57,9 +57,9 @@ SnakeGame::SnakeGame(QWidget *parent) : QWidget(parent)
     buttonLayout->addWidget(restartButton);
     buttonLayout->addStretch();
 
-    mainLayout->addStretch(); 
+    mainLayout->addStretch();
     mainLayout->addLayout(buttonLayout);
-    mainLayout->addStretch(); 
+    mainLayout->addStretch();
 
     connect(playButton, &QPushButton::clicked, this, &SnakeGame::startGame);
     connect(restartButton, &QPushButton::clicked, this, &SnakeGame::restartGame);
@@ -72,7 +72,7 @@ SnakeGame::SnakeGame(QWidget *parent) : QWidget(parent)
 
     setFocusPolicy(Qt::StrongFocus);
     QPalette pal = palette();
-    backgroundImage = QPixmap("../../background.jpg");
+    backgroundImage = QPixmap("../../background.JPG");
     pal.setColor(QPalette::Window, QColor::fromRgb(BACKGROUND_COLOR));
     setPalette(pal);
 
@@ -155,10 +155,10 @@ void SnakeGame::gameLoop()
         updateScore();
         generateFood();
 
-        if (score % 5 == 0) {  
+        if (score % 5 == 0) {
             int newInterval = timer->interval() - 10;
             if (newInterval < 50) {
-                newInterval = 50;  
+                newInterval = 50;
             }
             timer->setInterval(newInterval);
         }
@@ -281,14 +281,28 @@ void SnakeGame::paintEvent(QPaintEvent *event)
 }
 void SnakeGame::keyPressEvent(QKeyEvent *event)
 {
+    int key = event->key();
+
     if (!gameRunning) {
-        QWidget::keyPressEvent(event);
-        return;
+        if (key == Qt::Key_Up || key == Qt::Key_W ||
+            key == Qt::Key_Right || key == Qt::Key_D ||
+            key == Qt::Key_Down || key == Qt::Key_S ||
+            key == Qt::Key_Left || key == Qt::Key_A)
+        {
+            // Если нажата клавиша управления и игра не запущена — стартуем
+            playButton->setVisible(false);
+            restartButton->setVisible(false);
+            initGame();
+            timer->start(150);
+        } else {
+            QWidget::keyPressEvent(event);
+            return;
+        }
     }
 
     int newDirection = direction;
 
-    switch (event->key()) {
+    switch (key) {
     case Qt::Key_Up:
     case Qt::Key_W:
         if (direction != 2) newDirection = 0;
@@ -317,6 +331,7 @@ void SnakeGame::keyPressEvent(QKeyEvent *event)
 
     event->accept();
 }
+
 
 void SnakeGame::focusInEvent(QFocusEvent *event)
 {
