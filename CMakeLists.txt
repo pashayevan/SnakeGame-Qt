@@ -16,7 +16,6 @@ set(PROJECT_SOURCES
         main.cpp
         snake.cpp
         snake.h
-        snake.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
