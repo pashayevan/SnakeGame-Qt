@@ -34,7 +34,7 @@ A classic Snake game implementation using Qt framework with modern UI features a
 ### Build Instructions
 ```bash
 git clone https://github.com/pashayevan/SnakeGame-Qt.git
-cd Snakegame-Qt
+cd SnakeGame-Qt
 qmake SnakeGame-Qt.pro
 make
 ./SnakeGame-Qt
@@ -44,7 +44,7 @@ make
 ### For Windows with MinGW:
 ```bash
 git clone https://github.com/pashayevan/SnakeGame-Qt.git
-cd Snakegame-Qt
+cd SnakeGame-Qt
 qmake -spec win32-g++ "CONFIG+=release"
 mingw32-make -j4
 windeployqt --release SnakeGame.exe
