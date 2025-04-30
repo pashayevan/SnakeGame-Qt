@@ -33,6 +33,10 @@ A classic Snake game implementation using Qt framework with modern UI features a
 
 ### Build Instructions
 ```bash
+sudo apt install qtchooser
+sudo apt install qt5-qmake
+sudo apt install qtbase5-dev qt5-qmake
+
 git clone https://github.com/pashayevan/SnakeGame-Qt.git
 cd SnakeGame-Qt
 qmake SnakeGame-Qt.pro
