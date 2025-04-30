@@ -34,8 +34,15 @@ A classic Snake game implementation using Qt framework with modern UI features a
 ### Build Instructions
 ```bash
 git clone https://github.com/pashayevan/SnakeGame-Qt.git
-cd SnakeGame-Qt
+mkdir build
 cd build
+mkdir debug_crumble
+cd debug_crumble
+qmake -makefile
+qmake ../../Snakegame.pro
+make
+./Snakegame
+
 ```
 
 ### For Windows with MinGW:
@@ -65,7 +72,6 @@ qt-snake-game/
 ├── snake.cpp        # Game logic implementation
 ├── main.cpp         # Application entry point
 ├── CMakeLists.txt   # CMake build configuration
-└── resources/       # (Optional) Asset directory
 
 ```
 
