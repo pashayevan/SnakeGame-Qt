@@ -34,21 +34,21 @@ A classic Snake game implementation using Qt framework with modern UI features a
 ### Build Instructions
 ```bash
 git clone https://github.com/pashayevan/SnakeGame-Qt.git
-mkdir build
-cd build
-mkdir debug_crumble
-cd debug_crumble
-qmake -makefile
-qmake ../../Snakegame.pro
+cd Snakegame-Qt
+qmake SnakeGame-Qt.pro
 make
-./Snakegame
+./SnakeGame-Qt
 
 ```
 
 ### For Windows with MinGW:
 ```bash
-qmake -spec win32-g++ 
-mingw32-make
+git clone https://github.com/pashayevan/SnakeGame-Qt.git
+cd Snakegame-Qt
+qmake -spec win32-g++ "CONFIG+=release"
+mingw32-make -j4
+windeployqt --release SnakeGame.exe
+start SnakeGame.exe
 ```
 
 ### 🎮 How to Play
