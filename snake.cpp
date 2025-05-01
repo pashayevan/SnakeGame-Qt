@@ -72,7 +72,7 @@ SnakeGame::SnakeGame(QWidget *parent) : QWidget(parent)
 
     setFocusPolicy(Qt::StrongFocus);
     QPalette pal = palette();
-    backgroundImage = QPixmap("../../background.JPG");
+    backgroundImage = QPixmap("background.JPG");
     pal.setColor(QPalette::Window, QColor::fromRgb(BACKGROUND_COLOR));
     setPalette(pal);
 
