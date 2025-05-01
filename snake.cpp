@@ -47,18 +47,32 @@ SnakeGame::SnakeGame(QWidget *parent) : QWidget(parent)
 
     playButton = new QPushButton("Play", this);
     restartButton = new QPushButton("Restart", this);
+    muteButton = new QPushButton("Mute", this);
+    muteButton->setFixedSize(100, 40);
+
+
+    isMuted = false;
+
+
+    connect(muteButton, &QPushButton::clicked, this, [=]() mutable {
+        isMuted = !isMuted;
+        audioOutput->setMuted(isMuted);
+        muteButton->setText(isMuted ? "Unmute" : "Mute");
+    });
 
     playButton->setFixedSize(100, 40);
     restartButton->setFixedSize(100, 40);
     QFont buttonFont("Arial", 12);
     playButton->setFont(buttonFont);
     restartButton->setFont(buttonFont);
+    muteButton->setFont(buttonFont);
 
     QHBoxLayout *buttonLayout = new QHBoxLayout();
     buttonLayout->addStretch();
     buttonLayout->addWidget(playButton);
     buttonLayout->addWidget(restartButton);
     buttonLayout->addStretch();
+    buttonLayout->addWidget(muteButton);  // добавляем кнопку к layout
 
     mainLayout->addStretch();
     mainLayout->addLayout(buttonLayout);
@@ -90,7 +104,25 @@ SnakeGame::SnakeGame(QWidget *parent) : QWidget(parent)
     musicPlayer->setSource(QUrl::fromLocalFile("../../music.MP3"));  // Укажите путь к файлу
     audioOutput->setVolume(50);  // Громкость от 0 до 100
 
-    musicPlayer->play();
+    musicPlayer->stop();                  // на всякий случай сбрасываем
+    musicPlayer->setPosition(0);          // сбрасываем позицию на начало
+    musicPlayer->play();                  // запускаем заново
+
+    connect(musicPlayer, &QMediaPlayer::mediaStatusChanged, this, [=](QMediaPlayer::MediaStatus status) {
+        if (status == QMediaPlayer::EndOfMedia) {
+            musicPlayer->play();  // Зацикливаем
+        }
+    });
+
+    // --- Звук смерти ---
+    deathPlayer = new QMediaPlayer(this);
+    deathOutput = new QAudioOutput(this);
+    deathPlayer->setAudioOutput(deathOutput);
+
+    // Укажите путь к звуку смерти
+    deathPlayer->setSource(QUrl::fromLocalFile("../../coffin.mp3"));  // Замените на нужный путь
+    deathOutput->setVolume(100);
+
 
 }
 SnakeGame::~SnakeGame()
@@ -103,18 +135,41 @@ void SnakeGame::startGame()
 {
     playButton->setVisible(false);
     restartButton->setVisible(false);
+
+
+    if (deathPlayer) deathPlayer->stop();
+
+    if (musicPlayer) {
+        musicPlayer->stop();
+        musicPlayer->setPosition(0);
+        musicPlayer->play();
+    }
+
     initGame();
     timer->start(150);
     setFocus();
 }
 
+
+
 void SnakeGame::restartGame()
 {
     restartButton->setVisible(false);
+
+    if (deathPlayer) deathPlayer->stop();
+
+    if (musicPlayer) {
+        musicPlayer->stop();
+        musicPlayer->setPosition(0);
+        musicPlayer->play();
+    }
+
     initGame();
     timer->start(150);
     setFocus();
 }
+
+
 
 void SnakeGame::initGame()
 {
@@ -211,6 +266,9 @@ void SnakeGame::gameOver()
         highScoreLabel->setText(QString("High Score: %1").arg(highScore));
     }
 
+    musicPlayer->stop();           // Останавливаем фоновую музыку
+    deathPlayer->play();           // Воспроизводим звук смерти
+
     restartButton->setVisible(true);
 }
 
@@ -296,16 +354,13 @@ void SnakeGame::keyPressEvent(QKeyEvent *event)
     int key = event->key();
 
     if (!gameRunning) {
+        // Проверяем, была ли нажата клавиша для перезапуска
         if (key == Qt::Key_Up || key == Qt::Key_W ||
             key == Qt::Key_Right || key == Qt::Key_D ||
             key == Qt::Key_Down || key == Qt::Key_S ||
             key == Qt::Key_Left || key == Qt::Key_A)
         {
-            // Если нажата клавиша управления и игра не запущена — стартуем
-            playButton->setVisible(false);
-            restartButton->setVisible(false);
-            initGame();
-            timer->start(150);
+            startGame();  // <-- Вызов уже готовой функции, которая и скрывает кнопки!
         } else {
             QWidget::keyPressEvent(event);
             return;
@@ -344,12 +399,14 @@ void SnakeGame::keyPressEvent(QKeyEvent *event)
     event->accept();
 }
 
-
 void SnakeGame::focusInEvent(QFocusEvent *event)
 {
     Q_UNUSED(event);
     if (gameRunning) {
         timer->start();
+    }
+    if (!isMuted) {
+        musicPlayer->play();
     }
 }
 
@@ -359,4 +416,5 @@ void SnakeGame::focusOutEvent(QFocusEvent *event)
     if (gameRunning) {
         timer->stop();
     }
+    musicPlayer->pause();
 }
