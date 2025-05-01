@@ -10,6 +10,9 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QFrame>
+#include <QMediaPlayer>
+#include <QAudioOutput>
+
 
 class SnakeGame : public QWidget
 {
@@ -60,6 +63,9 @@ private:
     QPushButton *playButton;
     QPushButton *restartButton;
     QVBoxLayout *mainLayout;
+    QMediaPlayer *musicPlayer;
+    QAudioOutput *audioOutput;
+
 
     int score;
     int highScore;
