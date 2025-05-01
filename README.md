@@ -44,8 +44,6 @@ make
 ./SnakeGame-Qt
 
 ```
-note: change in snake.cpp line 75 background.JPG to background.jpg
-
 ### For Windows with MinGW:
 ```bash
 git clone https://github.com/pashayevan/SnakeGame-Qt.git
