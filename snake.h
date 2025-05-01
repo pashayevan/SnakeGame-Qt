@@ -65,6 +65,12 @@ private:
     QVBoxLayout *mainLayout;
     QMediaPlayer *musicPlayer;
     QAudioOutput *audioOutput;
+    QPushButton *muteButton;
+    QMediaPlayer *deathPlayer;
+    QAudioOutput *deathOutput;
+
+    bool isMuted;
+
 
 
     int score;
