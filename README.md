@@ -44,6 +44,16 @@ make
 ./SnakeGame-Qt
 
 ```
+- 🤲🏻 If there is an error:
+```bash
+Project ERROR: Unknown module(s) in QT: multimedia
+```
+It means that your Qt installation does not include the Qt Multimedia module, or it is not properly installed/configured.
+
+✒️ Here’s how you can fix it depending on your environment:
+```bash
+sudo apt install qtmultimedia5-dev
+```
 
 ### 🎮 How to Play
 
