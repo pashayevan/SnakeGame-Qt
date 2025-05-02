@@ -89,7 +89,7 @@ SnakeGame::SnakeGame(QWidget *parent) : QWidget(parent)
 
     setFocusPolicy(Qt::StrongFocus);
     QPalette pal = palette();
-    backgroundImage = QPixmap("../../background.jPG");
+    backgroundImage = QPixmap("../../background.JPG");
     pal.setColor(QPalette::Window, QColor::fromRgb(BACKGROUND_COLOR));
     setPalette(pal);
 
@@ -101,7 +101,7 @@ SnakeGame::SnakeGame(QWidget *parent) : QWidget(parent)
     musicPlayer = new QMediaPlayer(this);
     audioOutput = new QAudioOutput(this);
     musicPlayer->setAudioOutput(audioOutput);
-    musicPlayer->setSource(QUrl::fromLocalFile("../../music.MP3"));  // Укажите путь к файлу
+    musicPlayer->setSource(QUrl::fromLocalFile("../../music.mp3"));  // Укажите путь к файлу
     audioOutput->setVolume(50);  // Громкость от 0 до 100
 
     musicPlayer->stop();                  // на всякий случай сбрасываем
