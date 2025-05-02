@@ -1,6 +1,6 @@
 # 🐍 Qt Snake Game
 
-[![Qt Version](https://img.shields.io/badge/Qt-5.12%2B-brightgreen)](https://www.qt.io/)
+[![Qt Version](https://img.shields.io/badge/Qt-6.0%2B-brightgreen)](https://www.qt.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![C++ Version](https://img.shields.io/badge/C%2B%2B-11%2B-blue)](https://isocpp.org/)
 
@@ -27,9 +27,8 @@ A classic Snake game implementation using Qt framework with modern UI features a
 ## 🛠️ Building the Project
 
 ### Prerequisites
-- Qt 5.12 or later
+- Qt 6.0 or later
 - C++11 compatible compiler
-- CMake (optional)
 
 ### Build Instructions
 ```bash
@@ -76,7 +75,7 @@ qt-snake-game/
 ├── snake.h          # Main game class declaration
 ├── snake.cpp        # Game logic implementation
 ├── main.cpp         # Application entry point
-├── CMakeLists.txt   # CMake build configuration
+├── SnakeGame-Qt.pro   # pro-file build configuration
 
 ```
 
