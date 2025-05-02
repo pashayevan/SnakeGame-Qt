@@ -54,6 +54,7 @@ It means that your Qt installation does not include the Qt Multimedia module, or
 ```bash
 sudo apt install qtmultimedia5-dev
 ```
+---
 
 ### 🎮 How to Play
 
