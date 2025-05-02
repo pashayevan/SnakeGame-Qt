@@ -102,33 +102,40 @@ Core Components
 
 ### Key Algorithms
 ```cpp
-// Simplified game loop
-void SnakeGame::gameLoop() {
+void SnakeGame::gameLoop()
+{
     if (!gameRunning) return;
-    
-    // Movement logic
+
+    if (movePending) {
+        direction = nextDirection;
+        movePending = false;
+    }
+
     QPoint head = snake.first();
     switch (direction) {
-        case 0: head.ry()--; break; // Up
-        case 1: head.rx()++; break; // Right
-        case 2: head.ry()++; break; // Down
-        case 3: head.rx()--; break; // Left
+    case 0: head.ry()--; break;
+    case 1: head.rx()++; break;
+    case 2: head.ry()++; break;
+    case 3: head.rx()--; break;
     }
-    
-    // Collision detection
-    if (head.x() < 0 || head.x() >= FIELD_WIDTH || 
-        head.y() < 0 || head.y() >= FIELD_HEIGHT) {
-        gameOver();
-    }
-    
-    // Food consumption
+
+    snake.prepend(head);
     if (head == food) {
         score++;
+        updateScore();
         generateFood();
+
+        if (score % 5 == 0) {
+            int newInterval = timer->interval() - 10;
+            if (newInterval < 50) {
+                newInterval = 50;
+            }
+            timer->setInterval(newInterval);
+        }
     } else {
         snake.removeLast();
     }
-    
+    checkCollision();
     update();
 }
 ```
