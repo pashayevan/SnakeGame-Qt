@@ -44,15 +44,6 @@ make
 ./SnakeGame-Qt
 
 ```
-### For Windows with MinGW:
-```bash
-git clone https://github.com/pashayevan/SnakeGame-Qt.git
-cd SnakeGame-Qt
-qmake -spec win32-g++ "CONFIG+=release"
-mingw32-make -j4
-windeployqt --release SnakeGame.exe
-start SnakeGame.exe
-```
 
 ### 🎮 How to Play
 
